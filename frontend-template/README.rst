@@ -6,9 +6,7 @@
 
 投票动作由 AJAX 完成。请在 ``vote.html`` 的 ``TODO`` 处对 API 接口进行适当更改。
 
-示例接口如下：
-
-.. code:
+示例接口如下::
 
     POST /vote
     请求类型：application/x-www-form-urlencoded

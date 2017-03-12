@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock %}</title>
+    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/css/materialize.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/js/materialize.min.js"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons|Roboto:400,400i,600|Roboto+Condensed:400" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/earlyaccess/notosanssc.css">
+    <link rel="stylesheet" href="//cdn.materialdesignicons.com/1.8.36/css/materialdesignicons.min.css">
+</head>
+<body>
+    <style>
+    html, body{
+        font-family: "Roboto", "Noto Sans SC", "Noto Sans CJK SC", "Source Han Sans SC";
+        font-size: 16px;
+    }
+    .index-body{
+        height: 100vh;
+        width: 100%;
+        display: -webkit-flex;
+        display: -moz-flex;
+        display: -ms-flex;
+        display: -o-flex;
+        display: flex;
+        -webkit-flex-direction: column;
+        -moz-flex-direction: column;
+        -ms-flex-direction: column;
+        -o-flex-direction: column;
+        flex-direction: column;
+    }
+    .index-hero{
+        flex-grow: 3;
+        text-align: center;
+        font-weight: 300;
+        font-size: 4rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .index-content{
+        text-align: center;
+        flex-grow: 2;
+        display: -webkit-flex;
+        display: -moz-flex;
+        display: -ms-flex;
+        display: -o-flex;
+        display: flex;
+        -webkit-flex-direction: column;
+        -moz-flex-direction: column;
+        -ms-flex-direction: column;
+        -o-flex-direction: column;
+        flex-direction: column;
+        justify-content: space-around;
+    }
+
+    .nav-wrapper .title{
+        font-size: 1.5rem;
+        font-weight: 300;
+    }
+    .card-name{
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        padding: 1rem;
+        font-size: 1.5rem;
+        font-weight: 300;
+        color: #fff;
+        text-shadow: 0 0 5px #000;
+    }
+    .card-check{
+        position: absolute;
+        top: 0;
+        right: 0;
+        padding: 0.5rem;
+    }
+    .btn-square {
+        padding: 0 0.5rem;
+    }
+    .carousel-row {
+        overflow-x: auto;
+        overflow-y: hidden;
+        height: 400px;
+        white-space: nowrap;
+    }
+    .carousel-row img {
+        height: 100%;
+    }
+    .modal-content{
+        position: relative;
+    }
+    .btn-carousel-middle {
+        position: absolute;
+        right: 14px;
+        top: -35px;
+    }
+    footer{
+        width: 100%;
+        padding: 2em 0;
+        opacity: 0.5;
+        font-family: "Roboto Condensed";
+        text-align: center;
+    }
+    .logo1a23{
+        height: 1rem;
+        vertical-align: -1px;
+    }
+    </style>
+    {% block content %}
+    {% endblock %}
+    <footer>
+        Made for <a href="http://fanfou.com">Fanfou</a>. <br>
+        Organiser: <a href="!#">.rex</a>;
+        Code: <a href="!#">SimpleApples</a>;
+        Design: <a href="https://1a23.com"><img src="https://1a23.com/eanois_themes/default/images/logo4long.svg" class="logo1a23" alt="1A23 Studio"/></a>.
+    </footer>
+</body>
+</html>

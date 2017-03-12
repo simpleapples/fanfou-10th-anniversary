@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+{% block title %}饭否 10 周年投票{% endblock %}
+{% block content %}
+<nav class="light-blue">
+    <div class="container">
+        <div class="nav-wrapper">
+            <ul class="right">
+                <li>您好！用户名。</li>
+                <li><a href="/">登出</a></li>
+            </ul>
+            <span class="title">饭否十周年 T 恤投票</span>
+        </div>
+    </div>
+</nav>
+
+<div class="container">
+    <div class="row">
+        {% for i in data %}
+        <div class="col s6 m3">
+            <a href="#modal-{{ loop.index0 }}">
+                <div class="card">
+                    <div class="card-image">
+                        <img src="{{ i['img'][0] }}" alt="{{ i['name'] }}">
+                        <div class="card-check">
+                            <a class="waves-effect waves-light btn light-blue darken-2 btn-square btn-vote" href="#!" data-vote-id="{{ loop.index0 }}">
+                                <i class="material-icons">{% if voted[loop.index0] %}remove{% else %}add{% endif %}</i>
+                            </a>
+                        </div>
+                        <span class="card-name">{{ i['name'] }}</span>
+                    </div>
+                </div>
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% for i in data %}
+<div id="modal-{{ loop.index0 }}" class="modal">
+    <div class="carousel-row">
+        {% for img in i['img'] %}
+        <img src="{{ img }}">
+        {% endfor %}
+    </div>
+    <div class="modal-content">
+      <a class="btn-floating btn-vote btn-large btn-carousel-middle waves-effect waves-light light-blue" data-vote-id="{{ loop.index0 }}">
+          <i class="material-icons">{% if voted[loop.index0] %}remove{% else %}add{% endif %}</i>
+      </a>
+      <h4>{{ i['name'] }}</h4>
+      <p>{{ i['desc'] }}</p>
+    </div>
+</div>
+{% endfor %}
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('.modal').modal();
+        window.voted = {{ voted|tojson }};
+
+        $(".btn-vote").click(function(){
+            var vote_id = $(this).data("vote-id");
+            var result = !voted[vote_id] + 0;
+
+            // TODO: replace with your own API.
+            $.ajax("/vote", {method: "POST", data:{id: vote_id, value: result}})
+             .done(function(){
+                window.voted[vote_id] = result;
+                $(".btn-vote[data-vote-id=" + vote_id + "]").find("i").text(result ? "remove" : "add");
+                Materialize.toast(result ? '投票成功！' : '撤票成功！', 4000);
+             })
+             .fail(function(xhr, text){
+                Materialize.toast((result ? '投票失败：' : '撤票失败：') + text, 4000, "red darken-4");
+             });
+        });
+    });
+</script>
+{% endblock %}

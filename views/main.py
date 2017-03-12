@@ -1,6 +1,7 @@
 from flask import Blueprint
 from flask import render_template
 from flask_login import login_required
+from flask_login import current_user
 
 
 main_view = Blueprint('main', __name__)
@@ -9,6 +10,7 @@ main_view = Blueprint('main', __name__)
 @main_view.route('/', methods=['GET'])
 @login_required
 def index():
+    nickname = current_user.get('nickname')
     o = {
             "name": "测试设计 %d",
             "desc": "测试设计介绍 %d",
@@ -30,4 +32,7 @@ def index():
     # list of bools: if user has voted the entry
     voted = [False] * WORKS
 
-    return render_template('index.html', data=l, voted=voted)
+    return render_template('index.html',
+                           data=l,
+                           voted=voted,
+                           nickname=nickname)

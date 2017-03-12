@@ -13,19 +13,22 @@
                 <form class="auth-form" method="post">
                     <div class="row left-align">
                         <div class="input-field col s12">
-                            <input id="email" type="email" class="validate">
+                            <input id="email" name="email" type="email" class="validate">
                             <label for="email" data-error="请输入有效的电子邮箱">邮箱</label>
                         </div>
                     </div>
                     <div class="row left-align">
                         <div class="input-field col s12">
-                            <input id="password" type="password" class="validate">
+                            <input id="password" name="password" type="password" class="validate">
                             <label for="password">密码</label>
                         </div>
                     </div>
                     <div class="row center-align">
                         <div class="input-field col s12">
-                            <button type="submit" class="btn btn-large light-blue start-button auth-btn">登录饭否</button>
+                            <input type="submit" class="btn btn-large light-blue start-button auth-btn" value="登录饭否"/>
+                            {% if form %}
+                            {{ form.csrf_token }}
+                            {% endif %}
                         </div>
                     </div>
                 </form>

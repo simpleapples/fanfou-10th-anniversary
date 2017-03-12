@@ -4,8 +4,5 @@ from wtforms.validators import Email, DataRequired, Length
 
 
 class AuthForm(FlaskForm):
-    class Meta:
-        csrf = False
-
     email = StringField(validators=[DataRequired(), Email()])
     password = PasswordField(validators=[DataRequired(), Length(min=1, max=100)])

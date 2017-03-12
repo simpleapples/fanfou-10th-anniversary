@@ -1,0 +1,8 @@
+SECRET_KEY = 'FANFOU_MISS_YOU'
+
+CONSUMER_KEY = '9078e0859bfdf7944dce047131de6f16'
+CONSUMER_SECRET = '5d7293b405931914fd155b454bc633b5'
+FANFOU_BASE_URL = 'http://fanfou.com'
+API_BASE_URL = 'http://api.fanfou.com'
+AUTHORIZE_URL = FANFOU_BASE_URL + '/oauth/authorize'
+ACCESS_TOKEN_URL = FANFOU_BASE_URL + '/oauth/access_token'

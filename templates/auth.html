@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block title %}饭否 10 周年投票{% endblock %}
+{% block content %}
+<div class="index-body">
+    <nav class="index-hero light-blue">
+        <div>
+            饭否十周年 T 恤投票
+        </div>
+    </nav>
+    <div class="index-content container">
+        <div class="row">
+            <div class="col s10 m6 l4 offset-s1 offset-m3 offset-l4">
+                <form class="auth-form" method="post">
+                    <div class="row left-align">
+                        <div class="input-field col s12">
+                            <input id="email" type="email" class="validate">
+                            <label for="email" data-error="请输入有效的电子邮箱">邮箱</label>
+                        </div>
+                    </div>
+                    <div class="row left-align">
+                        <div class="input-field col s12">
+                            <input id="password" type="password" class="validate">
+                            <label for="password">密码</label>
+                        </div>
+                    </div>
+                    <div class="row center-align">
+                        <div class="input-field col s12">
+                            <button type="submit" class="btn btn-large light-blue start-button auth-btn">登录饭否</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    {% if error %}
+    $(document).ready(function(){
+        Materialize.toast("{{ error }}", 4000, "red darken-4");
+    });
+    {% endif %}
+</script>
+{% endblock %}

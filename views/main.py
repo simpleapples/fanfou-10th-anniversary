@@ -1,17 +1,14 @@
-from flask import Flask, render_template
-import json
-
-app = Flask(__name__)
-app.config['TEMPLATES_AUTO_RELOAD'] = True
+from flask import Blueprint
+from flask import render_template
+from flask_login import login_required
 
 
-@app.route('/')
+main_view = Blueprint('main', __name__)
+
+
+@main_view.route('/', methods=['GET'])
+@login_required
 def index():
-    return render_template('index.html')
-
-
-@app.route('/vote')
-def vote():
     o = {
             "name": "测试设计 %d",
             "desc": "测试设计介绍 %d",
@@ -21,9 +18,7 @@ def vote():
                 "http://placehold.it/450x300?text=Design+{id}+(2)"
             ]
         }
-
     l = []
-
     WORKS = 10
 
     for i in range(WORKS):
@@ -35,4 +30,4 @@ def vote():
     # list of bools: if user has voted the entry
     voted = [False] * WORKS
 
-    return render_template('vote.html', data=l, voted=voted)
+    return render_template('index.html', data=l, voted=voted)

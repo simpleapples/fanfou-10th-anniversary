@@ -39,7 +39,7 @@
 <div id="modal-{{ loop.index0 }}" class="modal">
     <div class="carousel-row">
         {% for img in i['img'] %}
-        <img src="{{ img }}">
+        <a href="{{ img }}" target="_blank"><img src="{{ img }}"></a>
         {% endfor %}
     </div>
     <div class="modal-content">

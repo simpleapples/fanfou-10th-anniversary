@@ -21,7 +21,10 @@ def init_app(app):
 
     @login_manager.user_loader
     def load_user(user_id):
-        return FFAuth.query.get(user_id)
+        try:
+            return FFAuth.query.get(user_id)
+        except:
+            pass
 
     app.register_blueprint(main_view)
     app.register_blueprint(auth_view)

@@ -30,7 +30,7 @@ def index():
         l[-1]['desc'] %= i
         l[-1]['img'] = [j.format(id=i) for j in l[-1]['img']]
 
-    l = random.shuffle(l)
+    random.shuffle(l)
     # list of bools: if user has voted the entry
     voted = [False] * WORKS
 

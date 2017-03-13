@@ -15,8 +15,8 @@ import const
 main_view = Blueprint('main', __name__)
 
 
-@main_view.route('/', methods=['GET'])
 @main_view.route('/rank', methods=['GET'])
+@main_view.route('/', methods=['GET'])
 @login_required
 def index():
     nickname = current_user.get('nickname')

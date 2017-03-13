@@ -44,7 +44,7 @@ def index():
         voted[product.id] = True if ff_vote else False
 
     list_type = 'index'
-    if request.path.startswith('/rank'):
+    if not request.path.startswith('/rank'):
         random.shuffle(product_list)
         list_type = 'rank'
 

@@ -33,14 +33,17 @@ def xauth():
                             'secret': const.CONSUMER_SECRET}
                 client = fanfou.XAuth(consumer, username, password)
                 user_info = client.request('/users/show', 'POST')
-                nickname = json.loads(user_info.read().decode('utf8'))['screen_name']
+                user_json = json.loads(user_info.read().decode('utf8'))
+                nickname = user_json['screen_name']
+                unique_id = user_json['unique_id']
                 try:
-                    ff_auth = FFAuth.query.equal_to('username', username).first()
+                    ff_auth = FFAuth.query.equal_to('uniqueID', unique_id).first()
                 except LeanCloudError as err:
                     if err.code == 101:
                         ff_auth = FFAuth()
                 token = client.oauth_token['key'].decode('utf-8')
                 secret = client.oauth_token['secret'].decode('utf-8')
+                ff_auth.set('uniqueID', unique_id)
                 ff_auth.set('username', username)
                 ff_auth.set('nickname', nickname)
                 ff_auth.set('token', token)

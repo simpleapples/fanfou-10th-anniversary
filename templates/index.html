@@ -2,23 +2,26 @@
 {% block title %}饭否T恤投票{% endblock %}
 {% block content %}
 <nav class="light-blue nav-extended">
-    <div class="nav-wrapper">
-        <a href="#" class="brand-logo">饭否T恤投票</a>
-        <a href="#" data-activates="mobile-nav" class="button-collapse"><i class="material-icons">menu</i></a>
-        <ul class="right hide-on-med-and-down">
-            <li><a href="#">@{{ nickname or '匿名用户' }}</a></li>
-            <li><a href="/logout">登出</a></li>
-        </ul>
-        <ul class="side-nav" id="mobile-nav">
-            <li><a href="#">@{{ nickname or '匿名用户' }}</a></li>
-            <li><a href="/logout">登出</a></li>
-        </ul>
-    </div>
-    <div class="nav-wrapper">
-        <ul class="left">
-            <li{% if list_type == 'index' %} class="active"{% endif %}><a href="/">投票</a></li>
-            <li{% if list_type == 'rank' %} class="active"{% endif %}><a href="/rank">排名</a></li>
-        </ul>
+    <div class="container">
+
+            <div class="nav-wrapper">
+                <a href="#" class="brand-logo">饭否 T&nbsp;恤投票</a>
+                <a href="#" data-activates="mobile-nav" class="button-collapse"><i class="material-icons">menu</i></a>
+                <ul class="right hide-on-med-and-down">
+                    <li><a href="#">@{{ nickname or '匿名用户' }}</a></li>
+                    <li><a href="/logout">登出</a></li>
+                </ul>
+                <ul class="side-nav" id="mobile-nav">
+                    <li><a href="#">@{{ nickname or '匿名用户' }}</a></li>
+                    <li><a href="/logout">登出</a></li>
+                </ul>
+            </div>
+            <div class="nav-content">
+              <ul class="tabs tabs-transparent">
+                  <li class="tab"><a{% if list_type == 'index' %} class="active"{% endif %} href="/" target="_self">投票</a></li>
+                  <li class="tab"><a{% if list_type == 'rank' %} class="active"{% endif %} href="/rank" target="_self">排名</a></li>
+              </ul>
+            </div>
     </div>
 </nav>
 
@@ -36,9 +39,9 @@
                                 <i class="material-icons">{% if voted[i['id']] %}remove{% else %}add{% endif %}</i>
                             </a>
                             {% else %}
-                            <a class="waves-effect waves-light btn light-blue darken-2 btn-square" href="#!">
-                                {{ i['vote'] or '0' }}票
-                            </a>
+                            <span class="badge new light-blue darken-2" data-badge-caption="票">
+                                {{ i['vote'] or '0' }}
+                            </span>
                             {% endif %}
                         </div>
                         <span class="card-name">{{ i['name'] }}</span>
@@ -63,10 +66,9 @@
             <i class="material-icons">{% if voted[i['id']] %}remove{% else %}add{% endif %}</i>
         </a>
         {% else %}
-        <a class="btn-floating btn-large btn-carousel-middle waves-effect waves-light light-blue btn-square">
-            {{ i['vote'] or '0' }}票
-        </a>
-
+        <span class="badge new light-blue darken-2" data-badge-caption="票">
+            {{ i['vote'] or '0' }}
+        </span>
         {% endif %}
         <h4>{{ i['name'] }}</h4>
         <p>{{ i['desc'] }}</p>

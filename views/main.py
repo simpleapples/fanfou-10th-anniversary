@@ -2,6 +2,7 @@ from flask import Blueprint
 from flask import render_template
 from flask_login import login_required
 from flask_login import current_user
+import random
 from models import FFProduct
 
 
@@ -22,7 +23,7 @@ def index():
                         'desc': product.get('intro'),
                         'img': image_list}
         product_list.append(product_item.copy())
-
+    random.shuffle(product_list)
     voted = [False] * len(products)
 
     return render_template('index.html',
@@ -31,6 +32,11 @@ def index():
                            nickname=nickname)
 
 
+@main_view.route("/landing")
+def landing(error=""):
+    return render_template('oauth.html', error=error)
+
+  
 @main_view.route('/vote', methods=['POST'])
 def vote():
     pass

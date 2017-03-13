@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}饭否 10 周年投票{% endblock %}
+{% block content %}
+<div class="index-body">
+    <nav class="index-hero light-blue">
+        <div>
+            饭否十周年 T 恤投票
+        </div>
+    </nav>
+    <div class="index-content container">
+        <p><a href="/oauth" class="btn btn-large light-blue start-button">通过饭否登录</a></p>
+    </div>
+</div>
+
+<script type="text/javascript">
+    {% if error %}
+    $(document).ready(function(){
+        Materialize.toast("{{ error }}", 4000, "red darken-4");
+    });
+    {% endif %}
+</script>
+{% endblock %}

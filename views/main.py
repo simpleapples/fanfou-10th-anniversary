@@ -8,6 +8,7 @@ import random
 from models import FFProduct
 from models import FFVote
 from models import FFAuth
+import const
 
 
 main_view = Blueprint('main', __name__)
@@ -49,9 +50,9 @@ def index():
 @login_required
 def vote(product_id, action):
     ff_vote_count = FFVote.query.equal_to('authUser', current_user).count()
-    if ff_vote_count >= 5:
+    if ff_vote_count >= const.VOTE_LIMIT:
         return jsonify({'success': False,
-                        'error': '最多只能投五个'})
+                        'error': '最多只能投' + str(const.VOTE_LIMIT) + '个'})
 
     try:
         ff_product = FFProduct.query.get(product_id)

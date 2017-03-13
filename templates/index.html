@@ -2,20 +2,23 @@
 {% block title %}饭否 10 周年投票{% endblock %}
 {% block content %}
 <nav class="light-blue nav-extended">
-    <div class="container">
-        <div class="nav-wrapper">
-            <ul class="right">
-                <li>您好！@{{ nickname or '匿名用户' }}</li>
-                <li><a href="/logout">登出</a></li>
-            </ul>
-            <span class="title">饭否十周年T恤投票</span>
-        </div>
-        <div class="nav-wrapper">
-            <ul class="left">
-                <li{% if list_type == 'index' %} class="active"{% endif %}><a href="/">投票</a></li>
-                <li{% if list_type == 'rank' %} class="active"{% endif %}><a href="/rank">排名</a></li>
-            </ul>
-        </div>
+    <div class="nav-wrapper">
+        <a href="#" class="brand-logo">饭否十周年T恤投票</a>
+        <a href="#" data-activates="mobile-nav" class="button-collapse"><i class="material-icons">menu</i></a>
+        <ul class="right hide-on-med-and-down">
+            <li><a href="#">@{{ nickname or '匿名用户' }}</a></li>
+            <li><a href="/logout">登出</a></li>
+        </ul>
+        <ul class="side-nav" id="mobile-nav">
+            <li><a href="#">@{{ nickname or '匿名用户' }}</a></li>
+            <li><a href="/logout">登出</a></li>
+        </ul>
+    </div>
+    <div class="nav-wrapper">
+        <ul class="left">
+            <li{% if list_type == 'index' %} class="active"{% endif %}><a href="/">投票</a></li>
+            <li{% if list_type == 'rank' %} class="active"{% endif %}><a href="/rank">排名</a></li>
+        </ul>
     </div>
 </nav>
 
@@ -73,6 +76,7 @@
 
 <script type="text/javascript">
     $(document).ready(function(){
+        $(".button-collapse").sideNav();
         $('.modal').modal();
         window.voted = {{ voted|tojson }};
 

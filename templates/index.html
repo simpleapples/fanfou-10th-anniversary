@@ -57,7 +57,7 @@
 <div id="modal-{{ loop.index0 }}" class="modal">
     <div class="carousel-row">
         {% for img in i['img'] %}
-        <a href="{{ img }}" target="_blank"><img class="original-image" data-original="{{ img }}@373w_413h_4e"></a>
+        <a href="{{ img }}" target="_blank"><img class="thumbnails-image" data-original="{{ img }}@475w_526h_4e"></a>
         {% endfor %}
     </div>
     <div class="modal-content">
@@ -79,10 +79,15 @@
 <script type="text/javascript">
     $(document).ready(function(){
         $(".thumbnails-image").lazyload();
-        $(".original-image").lazyload();
-
         $(".button-collapse").sideNav();
-        $('.modal').modal();
+        $('.modal').modal({
+            ready: function() {
+                var modal = $(this);
+                var link = modal.find('img');
+                link.trigger('appear');
+            }
+        });
+
         window.voted = {{ voted|tojson }};
 
         $(".btn-vote").click(function(){

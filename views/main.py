@@ -2,6 +2,7 @@ from flask import Blueprint
 from flask import render_template
 from flask_login import login_required
 from flask_login import current_user
+import random
 
 
 main_view = Blueprint('main', __name__)
@@ -29,6 +30,7 @@ def index():
         l[-1]['desc'] %= i
         l[-1]['img'] = [j.format(id=i) for j in l[-1]['img']]
 
+    l = random.shuffle(l)
     # list of bools: if user has voted the entry
     voted = [False] * WORKS
 

@@ -25,23 +25,23 @@ def xauth():
     form = AuthForm()
     if request.method == 'POST':
         if form.validate_on_submit():
-            email = form.email.data
+            username = form.username.data
             password = form.password.data
 
             try:
                 consumer = {'key': const.CONSUMER_KEY,
                             'secret': const.CONSUMER_SECRET}
-                client = fanfou.XAuth(consumer, email, password)
+                client = fanfou.XAuth(consumer, username, password)
                 user_info = client.request('/users/show', 'POST')
                 nickname = json.loads(user_info.read().decode('utf8'))['screen_name']
                 try:
-                    ff_auth = FFAuth.query.equal_to('email', email).first()
+                    ff_auth = FFAuth.query.equal_to('username', username).first()
                 except LeanCloudError as err:
                     if err.code == 101:
                         ff_auth = FFAuth()
                 token = client.oauth_token['key'].decode('utf-8')
                 secret = client.oauth_token['secret'].decode('utf-8')
-                ff_auth.set('email', email)
+                ff_auth.set('username', username)
                 ff_auth.set('nickname', nickname)
                 ff_auth.set('token', token)
                 ff_auth.set('secret', secret)

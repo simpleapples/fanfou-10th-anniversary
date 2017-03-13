@@ -3,6 +3,7 @@
 from flask import Flask
 from flask_login import LoginManager
 from leancloud import Object
+from leancloud import LeanCloudError
 from views.auth import auth_view
 from views.main import main_view
 import const
@@ -21,7 +22,11 @@ def init_app(app):
 
     @login_manager.user_loader
     def load_user(user_id):
-        return FFAuth.query.get(user_id)
+        try:
+            return FFAuth.query.get(user_id)
+        except LeanCloudError as _:
+            pass
+        return None
 
     app.register_blueprint(main_view)
     app.register_blueprint(auth_view)

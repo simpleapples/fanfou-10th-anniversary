@@ -60,7 +60,7 @@ def vote(product_id, action):
         ff_vote_count = FFVote.query.equal_to('authUser', current_user).count()
         if ff_vote_count >= const.VOTE_LIMIT:
             return jsonify({'success': False,
-                            'error': '最多只能投' + str(const.VOTE_LIMIT) + '个'})
+                            'error': '最多只能投 ' + str(const.VOTE_LIMIT) + ' 票'})
 
     try:
         ff_product = FFProduct.query.get(product_id)

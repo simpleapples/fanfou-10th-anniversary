@@ -21,6 +21,7 @@ main_view = Blueprint('main', __name__)
 def index():
     nickname = current_user.get('nickname')
     products = FFProduct.query.add_descending('vote').find()
+    vote_result = current_user.get('voteResult')
     product_list = []
     voted = {}
     for product in products:
@@ -36,13 +37,10 @@ def index():
                         'img': image_list}
         product_list.append(product_item.copy())
 
-        ff_vote = None
-        try:
-            ff_vote = FFVote.query.equal_to('authUser', current_user).equal_to('targetProduct', product).first()
-        except LeanCloudError as _:
-            pass
-        voted[product.id] = True if ff_vote else False
-
+        if product.id in vote_result:
+            voted[product.id] = True
+        else:
+            voted[product.id] = False
     list_type = 'rank'
     if not request.path.startswith('/rank'):
         random.shuffle(product_list)
@@ -58,10 +56,11 @@ def index():
 @main_view.route('/products/<string:product_id>/<string:action>', methods=['POST'])
 @login_required
 def vote(product_id, action):
-    ff_vote_count = FFVote.query.equal_to('authUser', current_user).count()
-    if ff_vote_count >= const.VOTE_LIMIT:
-        return jsonify({'success': False,
-                        'error': '最多只能投' + str(const.VOTE_LIMIT) + '个'})
+    if action == 'vote':
+        ff_vote_count = FFVote.query.equal_to('authUser', current_user).count()
+        if ff_vote_count >= const.VOTE_LIMIT:
+            return jsonify({'success': False,
+                            'error': '最多只能投' + str(const.VOTE_LIMIT) + '个'})
 
     try:
         ff_product = FFProduct.query.get(product_id)
@@ -93,9 +92,19 @@ def vote(product_id, action):
         except LeanCloudError as _:
             return jsonify({'success': False,
                             'error': '写入数据库失败'})
-        vote_count = ff_product.get('vote') + 1
-        ff_product.set('vote', vote_count)
-        ff_product.save()
+        try:
+            vote_count = ff_product.get('vote') + 1
+            ff_product.set('vote', vote_count)
+            ff_product.save()
+
+            vote_result = current_user.get('voteResult')
+            if ff_product.id not in vote_result:
+                vote_result.append(ff_product.id)
+                current_user.set('voteResult', vote_result)
+                current_user.save()
+        except LeanCloudError as _:
+            pass
+
         return jsonify({'success': True,
                         'error': ''})
 
@@ -105,11 +114,21 @@ def vote(product_id, action):
                             'error': ''})
         try:
             ff_vote.destroy()
-            vote_count = ff_product.get('vote') - 1
-            ff_product.set('vote', vote_count)
-            ff_product.save()
         except LeanCloudError as _:
             return jsonify({'success': False,
                             'error': '删除失败'})
+
+        try:
+            vote_count = ff_product.get('vote') - 1
+            ff_product.set('vote', vote_count)
+            ff_product.save()
+
+            vote_result = current_user.get('voteResult')
+            if ff_product.id in vote_result:
+                vote_result.remove(ff_product.id)
+                current_user.set('voteResult', vote_result)
+                current_user.save()
+        except LeanCloudError as _:
+            pass
         return jsonify({'success': True,
                         'error': ''})

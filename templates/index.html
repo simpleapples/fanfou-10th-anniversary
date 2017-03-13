@@ -55,6 +55,7 @@
 
 {% for i in data %}
 <div id="modal-{{ loop.index0 }}" class="modal">
+    <div class="modal-close vote-modal-close"><i class="material-icons">close</i></div>
     <div class="carousel-row">
         {% for img in i['img'] %}
         <a href="{{ img }}" target="_blank"><img class="thumbnails-image" data-original="{{ img }}@475w_526h_4e"></a>

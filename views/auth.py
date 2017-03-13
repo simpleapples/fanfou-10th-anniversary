@@ -50,7 +50,7 @@ def xauth():
             return redirect(url_for('main.index'))
         except LeanCloudError as _:
             error = '写入数据库失败'
-        except urllib.error.HTTPError as _:
+        except urllib.error.HTTPError as err:
             error = '认证失败, 请输入正确的用户名和密码'
     else:
         error = '表单非法'

@@ -22,8 +22,8 @@
                     <div class="card-image">
                         <img src="{{ i['img'][0] }}" alt="{{ i['name'] }}">
                         <div class="card-check">
-                            <a class="waves-effect waves-light btn light-blue darken-2 btn-square btn-vote" href="#!" data-vote-id="{{ loop.index0 }}">
-                                <i class="material-icons">{% if voted[loop.index0] %}remove{% else %}add{% endif %}</i>
+                            <a class="waves-effect waves-light btn light-blue darken-2 btn-square btn-vote" href="#!" data-product-id="{{ i['id'] }}">
+                                <i class="material-icons">{% if voted[i['id']] %}remove{% else %}add{% endif %}</i>
                             </a>
                         </div>
                         <span class="card-name">{{ i['name'] }}</span>
@@ -58,18 +58,23 @@
         window.voted = {{ voted|tojson }};
 
         $(".btn-vote").click(function(){
-            var vote_id = $(this).data("vote-id");
-            var result = !voted[vote_id] + 0;
+            var product_id = $(this).data("product-id");
+            var result = voted[product_id]
+            var action = result ? 'undo' : 'vote';
 
             // TODO: replace with your own API.
-            $.ajax("/vote", {method: "POST", data:{id: vote_id, value: result}})
-             .done(function(){
-                window.voted[vote_id] = result;
-                $(".btn-vote[data-vote-id=" + vote_id + "]").find("i").text(result ? "remove" : "add");
-                Materialize.toast(result ? '投票成功！' : '撤票成功！', 4000);
+            $.ajax("/products/" + product_id +  "/" + action, {method: "POST"})
+             .done(function(data){
+                 if (data.success) {
+                     window.voted[product_id] = !result;
+                     $(".btn-vote[data-product-id=" + product_id + "]").find("i").text(voted[product_id] ? "remove" : "add");
+                     Materialize.toast(!result ? '投票成功！' : '撤票成功！', 4000);
+                 } else {
+                     Materialize.toast((!result ? '投票失败：' : '撤票失败：') + data.error, 4000, "red darken-4");
+                 }
              })
              .fail(function(xhr, text){
-                Materialize.toast((result ? '投票失败：' : '撤票失败：') + text, 4000, "red darken-4");
+                Materialize.toast((!result ? '投票失败：' : '撤票失败：') + text, 4000, "red darken-4");
              });
         });
     });

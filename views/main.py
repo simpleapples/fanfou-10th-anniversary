@@ -4,6 +4,7 @@ from flask import render_template
 from flask import jsonify
 from flask_login import login_required
 from flask_login import current_user
+import random
 from models import FFProduct
 from models import FFVote
 from models import FFAuth
@@ -35,6 +36,8 @@ def index():
         except LeanCloudError as _:
             pass
         voted[product.id] = True if ff_vote else False
+
+    random.shuffle(product_list)
 
     return render_template('index.html',
                            data=product_list,

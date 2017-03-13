@@ -7,3 +7,11 @@ class FFAuth(Object, UserMixin):
     @property
     def is_active(self):
         return True
+
+
+class FFProduct(Object):
+    pass
+
+
+class FFVote(Object):
+    pass

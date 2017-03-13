@@ -2,6 +2,7 @@ from flask import Blueprint
 from flask import render_template
 from flask_login import login_required
 from flask_login import current_user
+from models import FFProduct
 
 
 main_view = Blueprint('main', __name__)
@@ -11,28 +12,25 @@ main_view = Blueprint('main', __name__)
 @login_required
 def index():
     nickname = current_user.get('nickname')
-    o = {
-            "name": "测试设计 %d",
-            "desc": "测试设计介绍 %d",
-            "img": [
-                "http://placehold.it/450x300?text=Design+{id}+(0)",
-                "http://placehold.it/450x300?text=Design+{id}+(1)",
-                "http://placehold.it/450x300?text=Design+{id}+(2)"
-            ]
-        }
-    l = []
-    WORKS = 10
+    products = FFProduct.query.find()
+    product_list = []
+    for product in products:
+        image_list = []
+        for image in product.get('images'):
+            image_list.append(image)
+        product_item = {'name': product.get('name'),
+                        'desc': product.get('intro'),
+                        'img': image_list}
+        product_list.append(product_item.copy())
 
-    for i in range(WORKS):
-        l.append(o.copy())
-        l[-1]['name'] %= i
-        l[-1]['desc'] %= i
-        l[-1]['img'] = [j.format(id=i) for j in l[-1]['img']]
-
-    # list of bools: if user has voted the entry
-    voted = [False] * WORKS
+    voted = [False] * len(products)
 
     return render_template('index.html',
-                           data=l,
+                           data=product_list,
                            voted=voted,
                            nickname=nickname)
+
+
+@main_view.route('/vote', methods=['POST'])
+def vote():
+    pass

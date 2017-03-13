@@ -55,7 +55,7 @@
         {% endfor %}
     </div>
     <div class="modal-content">
-        {% if list_type == 'inddex' %}
+        {% if list_type == 'index' %}
         <a class="btn-floating btn-vote btn-large btn-carousel-middle waves-effect waves-light light-blue" data-product-id="{{ i['id'] }}">
             <i class="material-icons">{% if voted[i['id']] %}remove{% else %}add{% endif %}</i>
         </a>
@@ -81,7 +81,6 @@
             var result = voted[product_id]
             var action = result ? 'undo' : 'vote';
 
-            // TODO: replace with your own API.
             $.ajax("/products/" + product_id +  "/" + action, {method: "POST"})
              .done(function(data){
                  if (data.success) {

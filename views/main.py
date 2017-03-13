@@ -38,3 +38,8 @@ def index():
                            data=l,
                            voted=voted,
                            nickname=nickname)
+
+
+@main_view.route("/landing")
+def landing(error=""):
+    return render_template('oauth.html', error=error)

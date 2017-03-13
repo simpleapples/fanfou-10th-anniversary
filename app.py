@@ -13,8 +13,8 @@ def init_app(app):
 
     login_manager = LoginManager(app)
     login_manager.session_protection = 'basic'
-    login_manager.login_view = 'auth.xauth'
-    login_manager.refresh_view = 'auth.xauth'
+    login_manager.login_view = 'main.landing'
+    login_manager.refresh_view = 'main.landing'
 
     class FFAuth(Object):
         pass

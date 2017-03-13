@@ -113,3 +113,47 @@ def vote(product_id, action):
                             'error': '删除失败'})
         return jsonify({'success': True,
                         'error': ''})
+
+
+@main_view.route('/crawl', methods=['GET'])
+def crawl():
+    import bs4
+    import requests
+    import datetime
+
+    url = 'http://wiki.fanfou.com/10th-anniversary'
+    response = requests.get(url)
+
+    soup = bs4.BeautifulSoup(response.text, 'html.parser')
+    table = soup.find('table')
+    for row in table.findAll('tr'):
+        cells = row.findAll('td')
+        if len(cells) == 7:
+            no = cells[0].string.replace('✅', '')
+            author_name_list = []
+            author_names = cells[1].findAll('a')
+            for name in author_names:
+                author_name_list.append(name.string)
+            author_name = ' '.join(author_name_list)
+            date_str = cells[2].string.split('~')[0].replace('2017-', '').replace('03-012', '03-12').replace('03-2', '03-02')
+            name = cells[3].string
+            intro = cells[4].string
+            image_list = []
+            images = cells[5].findAll('a')
+            for image in images:
+                image_list.append(image.attrs.get('href').replace('http://10th-anniversary-21954943.mtmssdn0.com',
+                                                                  'http://10th-anniversary-21954943.image.mtmssdn0.com'))
+            # print(no, author_name, date_str, name, intro, image_list)
+
+
+            date = datetime.datetime.strptime('2017-' + date_str, '%Y-%m-%d')
+            product = FFProduct(authorName=author_name,
+                                images=image_list,
+                                name=name,
+                                submitAt=date,
+                                serialNo=no,
+                                intro=intro)
+            product.save()
+    return render_template('auth.html')
+
+

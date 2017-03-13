@@ -2,6 +2,7 @@ from leancloud import LeanCloudError
 from flask import Blueprint
 from flask import render_template
 from flask import jsonify
+from flask import request
 from flask_login import login_required
 from flask_login import current_user
 import random
@@ -15,10 +16,11 @@ main_view = Blueprint('main', __name__)
 
 
 @main_view.route('/', methods=['GET'])
+@main_view.route('/rank', methods=['GET'])
 @login_required
 def index():
     nickname = current_user.get('nickname')
-    products = FFProduct.query.find()
+    products = FFProduct.query.add_descending('vote').find()
     product_list = []
     voted = {}
     for product in products:
@@ -28,6 +30,9 @@ def index():
         product_item = {'id': product.id,
                         'name': product.get('name'),
                         'desc': product.get('intro'),
+                        'vote': product.get('vote'),
+                        'user': {'nickname': product.get('authorName'),
+                                 'avatar': product.get('authorAvatar')},
                         'img': image_list}
         product_list.append(product_item.copy())
 
@@ -38,12 +43,16 @@ def index():
             pass
         voted[product.id] = True if ff_vote else False
 
-    random.shuffle(product_list)
+    list_type = 'index'
+    if request.path.startswith('/rank'):
+        random.shuffle(product_list)
+        list_type = 'rank'
 
     return render_template('index.html',
                            data=product_list,
                            voted=voted,
-                           nickname=nickname)
+                           nickname=nickname,
+                           list_type=list_type)
 
 
 @main_view.route('/products/<string:product_id>/<string:action>', methods=['POST'])

@@ -85,6 +85,7 @@ def vote(product_id, action):
                             'error': '写入数据库失败'})
         vote_count = ff_product.get('vote') + 1
         ff_product.set('vote', vote_count)
+        ff_product.save()
         return jsonify({'success': True,
                         'error': ''})
 
@@ -96,6 +97,7 @@ def vote(product_id, action):
             ff_vote.destroy()
             vote_count = ff_product.get('vote') - 1
             ff_product.set('vote', vote_count)
+            ff_product.save()
         except LeanCloudError as _:
             return jsonify({'success': False,
                             'error': '删除失败'})

@@ -85,7 +85,8 @@
         padding: 0 0.5rem;
     }
     .carousel-row {
-        overflow-x: auto;
+        overflow-x: scroll;
+        -webkit-overflow-scrolling: touch;
         overflow-y: hidden;
         height: 400px;
         white-space: nowrap;
@@ -93,6 +94,10 @@
     }
     .carousel-row img {
         height: 100%;
+    }
+    .modal {
+        overflow-y: scroll;
+        -webkit-overflow-scrolling: touch;
     }
     .modal-content{
         position: relative;

@@ -43,10 +43,10 @@ def index():
             pass
         voted[product.id] = True if ff_vote else False
 
-    list_type = 'index'
+    list_type = 'rank'
     if not request.path.startswith('/rank'):
         random.shuffle(product_list)
-        list_type = 'rank'
+        list_type = 'index'
 
     return render_template('index.html',
                            data=product_list,

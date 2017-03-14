@@ -43,6 +43,8 @@ def xauth():
                 except LeanCloudError as err:
                     if err.code == 101:
                         ff_auth = FFAuth()
+                    else:
+                        raise err
                 token = client.oauth_token['key'].decode('utf-8')
                 secret = client.oauth_token['secret'].decode('utf-8')
                 ff_auth.set('uniqueID', unique_id)

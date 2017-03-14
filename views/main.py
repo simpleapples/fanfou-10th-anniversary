@@ -28,12 +28,18 @@ def index():
         image_list = []
         for image in product.get('images'):
             image_list.append(image)
+        author_names = product.get('authorName').split(',')
+        author_sites = product.get('authorSite').split(',')
+        authors = []
+        if len(author_names) == len(author_sites):
+            for i, author_name in enumerate(author_names):
+                authors.append({'nickname': author_name,
+                                'site': author_sites[i]})
         product_item = {'id': product.id,
                         'name': product.get('name'),
                         'desc': product.get('intro'),
                         'vote': product.get('vote'),
-                        'user': {'nickname': product.get('authorName'),
-                                 'avatar': product.get('authorAvatar')},
+                        'authors': authors,
                         'img': image_list}
         product_list.append(product_item.copy())
 

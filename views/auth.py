@@ -16,7 +16,7 @@ import json
 from forms.auth import AuthForm
 from models import FFAuth
 import const
-from requests_oauthlib import OAuth1Session, oauth1_session
+from requests_oauthlib import OAuth1Session
 
 
 auth_view = Blueprint('auth', __name__)

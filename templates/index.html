@@ -71,7 +71,13 @@
             {{ i['vote'] or '0' }}
         </span>
         {% endif %}
-        <h4>{{ i['name'] }}</h4>
+        <h4>{{ i['name'] }}
+            {% if list_type == 'rank' %} by
+                {% for author in i['authors'] %}
+                    <a href="{{ author['site'] }}" target="_blank">@{{ author['nickname'] }}</a>
+                {% endfor %}
+            {% endif %}
+        </h4>
         <p>{{ i['desc'] }}</p>
     </div>
 </div>

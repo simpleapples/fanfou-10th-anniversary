@@ -3,9 +3,11 @@ from flask import Blueprint
 from flask import render_template
 from flask import jsonify
 from flask import request
+from flask import redirect
 from flask_login import login_required
 from flask_login import current_user
 import random
+import datetime
 from models import FFProduct
 from models import FFVote
 from models import FFAuth
@@ -19,6 +21,12 @@ main_view = Blueprint('main', __name__)
 @main_view.route('/', methods=['GET'])
 @login_required
 def index():
+    list_type = 'rank'
+    if not request.path.startswith('/rank'):
+        list_type = 'index'
+
+    if list_type == 'index' and datetime.datetime.utcnow() > datetime.datetime(2017, 3, 16, 16, 0, 0):
+        return redirect('/rank')
     nickname = current_user.get('nickname')
     products = FFProduct.query.add_descending('vote').find()
     vote_result = current_user.get('voteResult')
@@ -47,10 +55,9 @@ def index():
             voted[product.id] = True
         else:
             voted[product.id] = False
-    list_type = 'rank'
-    if not request.path.startswith('/rank'):
+
+    if list_type == 'index':
         random.shuffle(product_list)
-        list_type = 'index'
 
     return render_template('index.html',
                            data=product_list,
@@ -62,6 +69,10 @@ def index():
 @main_view.route('/products/<string:product_id>/<string:action>', methods=['POST'])
 @login_required
 def vote(product_id, action):
+    if datetime.datetime.utcnow() > datetime.datetime(2017, 3, 16, 16, 0, 0):
+        return jsonify({'success': False,
+                        'error': '投票已截止'})
+
     if action == 'vote':
         ff_vote_count = FFVote.query.equal_to('authUser', current_user).count()
         if ff_vote_count >= const.VOTE_LIMIT:

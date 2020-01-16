@@ -1,7 +1,7 @@
 arrow==0.10.0
 click==6.7
 fanfou==0.1.1
-Flask==0.12
+Flask==1.0
 Flask-Login==0.4.0
 Flask-WTF==0.14.2
 gevent==1.2.1

@@ -13,7 +13,7 @@ Jinja2==2.9.5
 leancloud-sdk==1.10.0
 MarkupSafe==1.0
 python-dateutil==2.6.0
-requests==2.13.0
+requests==2.20.0
 six==1.10.0
 Werkzeug==0.15.3
 WTForms==2.1

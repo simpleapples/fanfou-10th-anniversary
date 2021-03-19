@@ -9,7 +9,7 @@ gevent-websocket==0.10.1
 greenlet==0.4.12
 iso8601==0.1.11
 itsdangerous==0.24
-Jinja2==2.9.5
+Jinja2==2.11.3
 leancloud-sdk==1.10.0
 MarkupSafe==1.0
 python-dateutil==2.6.0
